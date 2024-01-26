@@ -227,6 +227,16 @@ def text_to_speech():
     except Exception as e:
         raise ServerException(str(e), 500)
 
+@app.route('/livez', methods=['GET'])
+def livez():
+    return jsonify({'status': 'live'}), 200
+
+@app.route('/readyz', methods=['GET'])
+def readyz():
+    if tts is not None:
+        return jsonify({'status': 'ready'}), 200
+    else:
+        return jsonify({'status': 'not ready'}), 503
 
 def main():
     global tts
